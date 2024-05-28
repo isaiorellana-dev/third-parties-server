@@ -2,11 +2,11 @@
   "name": "third-parties-server",
   "version": "1.0.0",
   "description": "",
-  "main": "api/index.ts",
+  "main": "src/api/index.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "ts-node-dev api/index.ts"
+    "start": "node api/index.js",
+    "dev": "ts-node-dev src/api/index.ts"
   },
   "keywords": [],
   "author": "",
