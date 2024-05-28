@@ -1,0 +1,1 @@
+{"version":3,"file":"webhooks.js","sourceRoot":"","sources":["../../src/handlers/webhooks.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,GAAG,GAAG,EAAE;IACtB,iBAAiB;IACjB,oBAAoB;IACpB,uBAAuB;IACvB,yCAAyC;AAC3C,CAAC,CAAA;AAED,MAAM,CAAC,OAAO,GAAG;IACf,UAAU;CACX,CAAA"}

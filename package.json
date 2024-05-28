@@ -2,12 +2,18 @@
   "name": "third-parties-server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/api/index.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "tsc",
-    "start": "node api/index.js",
-    "dev": "ts-node-dev src/api/index.ts"
+    "start": "nodemon src/index.ts",
+    "build": "rimraf dist && tsc",
+    "ts.check": "tsc --project tsconfig.json",
+    "add-build": "git add dist"
   },
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -20,6 +26,8 @@
     "express": "^4.19.2",
     "google-auth-library": "^9.10.0",
     "googleapis": "^105.0.0",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^5.0.7",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   }
