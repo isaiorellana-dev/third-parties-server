@@ -2,7 +2,7 @@ import express from "express"
 const { getFilesList, getFile, createFolder } = require("../handlers/drive")
 const { editDriveLink } = require("../handlers/notion")
 import dotenv from "dotenv"
-import { FileListResponse, Path } from "../types/drive"
+import { Path } from "../types/drive"
 import { MakeCarpetQuery } from "../types/notion"
 
 dotenv.config()
