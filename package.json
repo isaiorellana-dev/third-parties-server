@@ -15,6 +15,7 @@
     "@google-cloud/local-auth": "^2.1.0",
     "@notionhq/client": "^2.2.15",
     "@types/express": "^4.17.21",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "google-auth-library": "^9.10.0",
