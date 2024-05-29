@@ -14,4 +14,4 @@ Creado con Node, Express y TypeScript.
 - Creador de carpetas
   `/n/p?params`
 
-  Recibe los datos de un ticket de Notion con las porpiedades necesarias para crear la ruta de carpetas correspondiente en Google Drive.
+  Recibe los datos de un ticket de Notion con las propiedades necesarias para crear la ruta de carpetas correspondiente en Google Drive.
