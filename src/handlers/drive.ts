@@ -4,6 +4,7 @@ const path = require("path")
 require("dotenv").config()
 
 const stringKey = process.env.DRIVE_KEY!
+const DRIVE_ID = process.env.DRIVE_ID
 const key = JSON.parse(stringKey)
 
 const auth = new google.auth.GoogleAuth({
@@ -34,7 +35,7 @@ const getFilesList = async (
   try {
     const response = await driveService.files.list({
       corpora: "drive",
-      driveId: "0ANYvByTFWGiMUk9PVA",
+      driveId: DRIVE_ID,
       includeItemsFromAllDrives: true,
       supportsAllDrives: true,
       q: `'${parentId}' in parents and trashed = false and name = '${name}'`,
@@ -50,7 +51,7 @@ const createFolder = async (parentId: string, name: string) => {
   try {
     const response = await driveService.files.create({
       requestBody: {
-        driveId: "0ANYvByTFWGiMUk9PVA",
+        driveId: DRIVE_ID,
         name: name,
         parents: [parentId],
         mimeType: "application/vnd.google-apps.folder",
@@ -67,7 +68,7 @@ const createFolder = async (parentId: string, name: string) => {
 const getDrive = async (driveID: string) => {
   try {
     const response = await driveService.drives.get({
-      driveId: "0ANYvByTFWGiMUk9PVA",
+      driveId: driveID,
       fields: "name",
     })
     return response.data
