@@ -32,14 +32,14 @@ router.get("/page", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const pathKeys = Object.keys(path);
     for (const [index, key] of pathKeys.entries()) {
         const keyWithQuery = key;
-        console.log("KEY:", keyWithQuery);
+        console.info("KEY:", keyWithQuery);
         try {
             // Search folder
-            console.log("Searching folder...");
+            console.info("Searching folder...");
             const data = yield getFilesList(path[key].parentId, query[keyWithQuery].replace(/_/g, " "));
             if (data.files != undefined) {
                 if (((_a = data.files) === null || _a === void 0 ? void 0 : _a.length) > 0) {
-                    console.log("Folder encontrado con id:", data.files[0].id);
+                    console.info("Folder encontrado con id:", data.files[0].id);
                     // Asignar Id de folder encontrado
                     path[key].id = data.files[0].id;
                     path[key].value = data.files[0].name;
@@ -49,14 +49,14 @@ router.get("/page", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                         path[nextKey].parentId = path[key].id;
                     }
                     else {
-                        console.log("Creando folder de tablets");
+                        console.info("Creando folder de tablets");
                         yield createFolder(data.files[0].id, "Tablets");
                     }
                 }
                 else {
-                    console.log("Folder no encontrado");
+                    console.info("Folder no encontrado");
                     try {
-                        console.log("Creando folder:", query[keyWithQuery].replace(/_/g, " "));
+                        console.info("Creando folder:", query[keyWithQuery].replace(/_/g, " "));
                         const folderResponse = yield createFolder(path[key].parentId, query[keyWithQuery].replace(/_/g, " "));
                         path[key].id = folderResponse.id;
                         path[key].value = query[keyWithQuery].replace(/_/g, " ");
@@ -66,22 +66,22 @@ router.get("/page", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                             path[nextKey].parentId = folderResponse.id;
                         }
                         else {
-                            console.log("Creando folder de tablets");
+                            console.info("Creando folder de tablets");
                             yield createFolder(path[key].id, "Tablets");
                         }
                     }
                     catch (error) {
-                        console.log(error);
+                        console.info(error);
                     }
                 }
             }
         }
         catch (error) {
-            console.log("Hubo un error en:", keyWithQuery);
-            console.log(error);
-            console.log("-".repeat(50));
+            console.info("Hubo un error en:", keyWithQuery);
+            console.info(error);
+            console.info("-".repeat(50));
         }
-        console.log("-".repeat(40));
+        console.info("-".repeat(40));
     }
     // Set viewLink
     try {
@@ -89,8 +89,8 @@ router.get("/page", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         yield editDriveLink(query.id, designerFolder.webViewLink);
     }
     catch (error) {
-        console.log("no se pudo setear la vaina");
-        console.log(error);
+        console.warn("Hubo un error al obtener el link de la carpeta.");
+        console.error(error);
     }
     res.send("Accepted");
 }));
