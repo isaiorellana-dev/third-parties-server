@@ -25,7 +25,22 @@ const editDriveLink = (id, url) => __awaiter(this, void 0, void 0, function* () 
         throw error;
     }
 });
+const getDatabase = (dbId, props, start_cursor) => __awaiter(this, void 0, void 0, function* () {
+    try {
+        const response = yield notion.databases.query({
+            database_id: dbId,
+            filter_properties: props,
+            start_cursor: start_cursor,
+        });
+        return response;
+    }
+    catch (error) {
+        console.error(error);
+        throw new Error(error);
+    }
+});
 module.exports = {
     editDriveLink,
+    getDatabase,
 };
 //# sourceMappingURL=notion.js.map
