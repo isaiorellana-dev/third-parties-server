@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const { getFilesList, getFile, createFolder } = require("../handlers/drive");
-const { editDriveLink } = require("../handlers/notion");
+const { getFilesList, getFile, createFolder, getPNG, } = require("../handlers/drive");
+const { editDriveLink, editDriveFile } = require("../handlers/notion");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const router = express_1.default.Router();
@@ -86,13 +86,30 @@ router.get("/page", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     // Set viewLink
     try {
         const designerFolder = yield getFile(path.designer.id);
-        yield editDriveLink(query.id, designerFolder.webViewLink);
+        yield editDriveLink(query.id, designerFolder.webViewLink, path.designer.id);
     }
     catch (error) {
         console.warn("Hubo un error al obtener el link de la carpeta.");
         console.error(error);
     }
     res.send("Accepted");
+}));
+router.get("/file", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = req.query;
+    console.log(query);
+    let id;
+    let webLink = `https://drive.google.com/file/d/${id}/view?usp=drive_link`;
+    try {
+        const folder = yield getPNG(query.drive_id);
+        id = folder.files[0].id;
+        console.log(folder);
+        const n = yield editDriveFile(query.id, webLink);
+        console.log(n);
+    }
+    catch (error) {
+        console.log(error);
+    }
+    res.send("accepted");
 }));
 module.exports = router;
 //# sourceMappingURL=notionWebhooks.js.map

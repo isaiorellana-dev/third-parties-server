@@ -46,7 +46,23 @@ const getFilesList = (parentId, name) => __awaiter(void 0, void 0, void 0, funct
         return response.data;
     }
     catch (error) {
-        // console.error("Error getting folder:", error.response.config.params)
+        console.error("Error getting folder:", error);
+        throw error;
+    }
+});
+const getPNG = (parentId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield driveService.files.list({
+            corpora: "drive",
+            driveId: DRIVE_ID,
+            includeItemsFromAllDrives: true,
+            supportsAllDrives: true,
+            q: `'${parentId}' in parents and mimeType contains 'image/'`,
+        });
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error getting folder:", error);
         throw error;
     }
 });
@@ -96,6 +112,7 @@ const getAboutUser = () => __awaiter(void 0, void 0, void 0, function* () {
 module.exports = {
     getFile,
     getFilesList,
+    getPNG,
     getDrive,
     createFolder,
     getAboutUser,

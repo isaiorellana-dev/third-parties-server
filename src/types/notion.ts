@@ -6,3 +6,8 @@ export type MakeCarpetQuery = {
   range: string
   user: string
 }
+
+export type GetFileQuery = {
+  id: string
+  drive_id: string
+}

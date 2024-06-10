@@ -1,9 +1,14 @@
 import express from "express"
-const { getFilesList, getFile, createFolder } = require("../handlers/drive")
-const { editDriveLink } = require("../handlers/notion")
+const {
+  getFilesList,
+  getFile,
+  createFolder,
+  getPNG,
+} = require("../handlers/drive")
+const { editDriveLink, editDriveFile } = require("../handlers/notion")
 import dotenv from "dotenv"
 import { Path } from "../types/drive"
-import { MakeCarpetQuery } from "../types/notion"
+import { MakeCarpetQuery, GetFileQuery } from "../types/notion"
 
 dotenv.config()
 
@@ -90,13 +95,32 @@ router.get("/page", async (req, res) => {
   // Set viewLink
   try {
     const designerFolder = await getFile(path.designer.id)
-    await editDriveLink(query.id, designerFolder.webViewLink)
+    await editDriveLink(query.id, designerFolder.webViewLink, path.designer.id)
   } catch (error) {
     console.warn("Hubo un error al obtener el link de la carpeta.")
     console.error(error)
   }
 
   res.send("Accepted")
+})
+
+router.get("/file", async (req, res) => {
+  const query: GetFileQuery = req.query as GetFileQuery
+  console.log(query)
+
+  let id
+  let webLink = `https://drive.google.com/file/d/${id}/view?usp=drive_link`
+
+  try {
+    const folder = await getPNG(query.drive_id)
+    id = folder.files[0].id
+    console.log(folder)
+    const n = await editDriveFile(query.id, webLink)
+    console.log(n)
+  } catch (error) {
+    console.log(error)
+  }
+  res.send("accepted")
 })
 
 module.exports = router

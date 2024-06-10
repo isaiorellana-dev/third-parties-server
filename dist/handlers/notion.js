@@ -10,12 +10,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const { Client } = require("@notionhq/client");
 require("dotenv").config();
 const notion = new Client({ auth: process.env.NOTION_KEY });
-const editDriveLink = (id, url) => __awaiter(this, void 0, void 0, function* () {
+const editDriveLink = (id, url, folderId) => __awaiter(this, void 0, void 0, function* () {
     try {
         const res = yield notion.pages.update({
             page_id: id,
             properties: {
                 "Drive URL": url,
+                "drive id": folderId,
+            },
+        });
+        return res.data;
+    }
+    catch (error) {
+        console.log(error);
+        throw error;
+    }
+});
+const editDriveFile = (id, url) => __awaiter(this, void 0, void 0, function* () {
+    try {
+        const res = yield notion.pages.update({
+            page_id: id,
+            properties: {
+                "Google Drive File": url,
             },
         });
         return res.data;
@@ -41,6 +57,7 @@ const getDatabase = (dbId, props, start_cursor) => __awaiter(this, void 0, void 
 });
 module.exports = {
     editDriveLink,
+    editDriveFile,
     getDatabase,
 };
 //# sourceMappingURL=notion.js.map

@@ -42,7 +42,23 @@ const getFilesList = async (
     })
     return response.data
   } catch (error: any) {
-    // console.error("Error getting folder:", error.response.config.params)
+    console.error("Error getting folder:", error)
+    throw error
+  }
+}
+
+const getPNG = async (parentId: string) => {
+  try {
+    const response = await driveService.files.list({
+      corpora: "drive",
+      driveId: DRIVE_ID,
+      includeItemsFromAllDrives: true,
+      supportsAllDrives: true,
+      q: `'${parentId}' in parents and mimeType contains 'image/'`,
+    })
+    return response.data
+  } catch (error: any) {
+    console.error("Error getting folder:", error)
     throw error
   }
 }
@@ -93,6 +109,7 @@ const getAboutUser = async () => {
 module.exports = {
   getFile,
   getFilesList,
+  getPNG,
   getDrive,
   createFolder,
   getAboutUser,
