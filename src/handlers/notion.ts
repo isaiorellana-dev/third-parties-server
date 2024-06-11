@@ -8,7 +8,7 @@ const editDriveLink = async (id: string, url: string, folderId: string) => {
     const res = await notion.pages.update({
       page_id: id,
       properties: {
-        "Drive URL": url,
+        "Drive Folder URL": url,
         "drive id": folderId,
       },
     })

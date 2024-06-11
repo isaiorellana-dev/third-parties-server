@@ -109,14 +109,16 @@ router.get("/file", async (req, res) => {
   console.log(query)
 
   let id
-  let webLink = `https://drive.google.com/file/d/${id}/view?usp=drive_link`
 
   try {
     const folder = await getPNG(query.drive_id)
     id = folder.files[0].id
+    console.log("id:", id)
     console.log(folder)
-    const n = await editDriveFile(query.id, webLink)
-    console.log(n)
+    let webLink = `https://drive.google.com/file/d/${id}/view?usp=drive_link`
+    console.log(webLink)
+    await editDriveFile(query.id, webLink)
+    // console.log(n)
   } catch (error) {
     console.log(error)
   }

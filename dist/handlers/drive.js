@@ -57,7 +57,7 @@ const getPNG = (parentId) => __awaiter(void 0, void 0, void 0, function* () {
             driveId: DRIVE_ID,
             includeItemsFromAllDrives: true,
             supportsAllDrives: true,
-            q: `'${parentId}' in parents and mimeType contains 'image/'`,
+            q: `'${parentId}' in parents and mimeType contains 'image/png'`,
         });
         return response.data;
     }

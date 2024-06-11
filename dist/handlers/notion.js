@@ -15,7 +15,7 @@ const editDriveLink = (id, url, folderId) => __awaiter(this, void 0, void 0, fun
         const res = yield notion.pages.update({
             page_id: id,
             properties: {
-                "Drive URL": url,
+                "Drive Folder URL": url,
                 "drive id": folderId,
             },
         });

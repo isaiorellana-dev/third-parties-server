@@ -98,13 +98,15 @@ router.get("/file", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const query = req.query;
     console.log(query);
     let id;
-    let webLink = `https://drive.google.com/file/d/${id}/view?usp=drive_link`;
     try {
         const folder = yield getPNG(query.drive_id);
         id = folder.files[0].id;
+        console.log("id:", id);
         console.log(folder);
-        const n = yield editDriveFile(query.id, webLink);
-        console.log(n);
+        let webLink = `https://drive.google.com/file/d/${id}/view?usp=drive_link`;
+        console.log(webLink);
+        yield editDriveFile(query.id, webLink);
+        // console.log(n)
     }
     catch (error) {
         console.log(error);
