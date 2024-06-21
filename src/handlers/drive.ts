@@ -1,7 +1,8 @@
 import { google } from "googleapis"
 import { FileListResponse } from "../types/drive"
-const path = require("path")
 require("dotenv").config()
+import path from "path"
+import fs from "fs"
 
 const stringKey = process.env.DRIVE_KEY!
 const DRIVE_ID = process.env.DRIVE_ID
@@ -47,14 +48,14 @@ const getFilesList = async (
   }
 }
 
-const getPNG = async (parentId: string) => {
+const getPNG = async (parentId: string, fileId: string) => {
   try {
     const response = await driveService.files.list({
       corpora: "drive",
       driveId: DRIVE_ID,
       includeItemsFromAllDrives: true,
       supportsAllDrives: true,
-      q: `'${parentId}' in parents and mimeType contains 'image/png'`,
+      q: `'${parentId}' in parents and trashed = false and name contains '${fileId}' and mimeType contains 'image/png'`,
     })
     return response.data
   } catch (error: any) {
@@ -79,6 +80,43 @@ const createFolder = async (parentId: string, name: string) => {
     console.error("Error creating folder:", error)
     throw error
   }
+}
+
+const downloadPNG = async (id: string) => {
+  return new Promise<string>((resolve, reject) => {
+    try {
+      const filePath = path.join("src", "assets/img/media.png")
+      const dest = fs.createWriteStream(filePath)
+
+      driveService.files.get(
+        {
+          fileId: id,
+          alt: "media",
+        },
+        {
+          responseType: "stream",
+        },
+        (err, res) => {
+          if (err) {
+            reject(err)
+            return
+          }
+
+          res.data
+            .on("end", () => {
+              console.log("File downloaded")
+              resolve(filePath)
+            })
+            .on("error", (error) => {
+              reject(error)
+            })
+            .pipe(dest)
+        }
+      )
+    } catch (err) {
+      reject(err)
+    }
+  })
 }
 
 const getDrive = async (driveID: string) => {
@@ -110,6 +148,7 @@ module.exports = {
   getFile,
   getFilesList,
   getPNG,
+  downloadPNG,
   getDrive,
   createFolder,
   getAboutUser,

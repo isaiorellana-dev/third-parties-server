@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const googleapis_1 = require("googleapis");
-const path = require("path");
 require("dotenv").config();
+const path_1 = __importDefault(require("path"));
+const fs_1 = __importDefault(require("fs"));
 const stringKey = process.env.DRIVE_KEY;
 const DRIVE_ID = process.env.DRIVE_ID;
 const key = JSON.parse(stringKey);
@@ -50,14 +54,14 @@ const getFilesList = (parentId, name) => __awaiter(void 0, void 0, void 0, funct
         throw error;
     }
 });
-const getPNG = (parentId) => __awaiter(void 0, void 0, void 0, function* () {
+const getPNG = (parentId, fileId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield driveService.files.list({
             corpora: "drive",
             driveId: DRIVE_ID,
             includeItemsFromAllDrives: true,
             supportsAllDrives: true,
-            q: `'${parentId}' in parents and mimeType contains 'image/png'`,
+            q: `'${parentId}' in parents and trashed = false and name contains '${fileId}' and mimeType contains 'image/png'`,
         });
         return response.data;
     }
@@ -83,6 +87,37 @@ const createFolder = (parentId, name) => __awaiter(void 0, void 0, void 0, funct
         console.error("Error creating folder:", error);
         throw error;
     }
+});
+const downloadPNG = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    return new Promise((resolve, reject) => {
+        try {
+            const filePath = path_1.default.join("src", "assets/img/media.png");
+            const dest = fs_1.default.createWriteStream(filePath);
+            driveService.files.get({
+                fileId: id,
+                alt: "media",
+            }, {
+                responseType: "stream",
+            }, (err, res) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                res.data
+                    .on("end", () => {
+                    console.log("File downloaded");
+                    resolve(filePath);
+                })
+                    .on("error", (error) => {
+                    reject(error);
+                })
+                    .pipe(dest);
+            });
+        }
+        catch (err) {
+            reject(err);
+        }
+    });
 });
 const getDrive = (driveID) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -113,6 +148,7 @@ module.exports = {
     getFile,
     getFilesList,
     getPNG,
+    downloadPNG,
     getDrive,
     createFolder,
     getAboutUser,

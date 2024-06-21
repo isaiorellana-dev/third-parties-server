@@ -19,12 +19,49 @@ const editDriveLink = async (id: string, url: string, folderId: string) => {
   }
 }
 
+const getEmailData = async (id: string) => {
+  const props = ["P%3Dqe", "O%3Dg%7B", "o%7CQR", "Y%5BhB", "q%40Rj", "pyCN"]
+  try {
+    const res = await notion.pages.retrieve({
+      page_id: id,
+      filter_properties: props,
+    })
+    const emailData = {
+      email: res.properties["Email copy"].formula.string,
+      user: res.properties["User"].formula.string,
+      token: res.properties["Token"].formula.string,
+      folderUrl: res.properties["Drive Folder URL"].url,
+      name: res.properties["Name supermercado"].formula.string,
+      id: res.properties["id"].formula.string,
+    }
+
+    return emailData
+  } catch (error) {
+    throw new Error("Message: " + error)
+  }
+}
+
 const editDriveFile = async (id: string, url: string) => {
   try {
     const res = await notion.pages.update({
       page_id: id,
       properties: {
         "Google Drive File": url,
+      },
+    })
+    return res.data
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+const setNotified = async (id: string) => {
+  try {
+    const res = await notion.pages.update({
+      page_id: id,
+      properties: {
+        Notified: true,
       },
     })
     return res.data
@@ -55,5 +92,7 @@ const getDatabase = async (
 module.exports = {
   editDriveLink,
   editDriveFile,
+  setNotified,
   getDatabase,
+  getEmailData,
 }
