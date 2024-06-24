@@ -47,7 +47,7 @@ const sendEmail = (user, password, file, emails) => __awaiter(void 0, void 0, vo
             "Content-ID: <imagen1>",
             "",
             fs
-                .readFileSync(path.join("src", "assets/img/banner.png"))
+                .readFileSync(path.join(__dirname, "assets/img/banner.png"))
                 .toString("base64"),
             "",
             "--boundary",
