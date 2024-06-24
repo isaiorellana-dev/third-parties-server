@@ -47,7 +47,7 @@ const sendEmail = async (
       "Content-ID: <imagen1>",
       "",
       fs
-        .readFileSync(path.join(__dirname, "assets/img/banner.png"))
+        .readFileSync(path.join(__dirname, "../assets/img/banner.png"))
         .toString("base64"),
       "",
       "--boundary",
