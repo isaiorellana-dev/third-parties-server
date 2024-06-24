@@ -141,7 +141,7 @@ router.get("/email", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (getImage.files[0] && getImage.files.length > 0) {
             const filePath = yield downloadPNG(getImage.files[0].id);
             const emails = (0, tools_1.cleanEmails)(emailData.email);
-            // emails.push(CC);
+            emails.push(CC);
             const imageBase64 = yield (0, tools_1.encodeFileToBase64)(filePath);
             yield sendEmail(emailData.user, emailData.token, imageBase64, emails);
             yield setNotified(pageId);

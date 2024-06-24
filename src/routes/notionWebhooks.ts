@@ -166,7 +166,7 @@ router.get("/email", async (req, res) => {
       const filePath = await downloadPNG(getImage.files[0].id)
 
       const emails = cleanEmails(emailData.email)
-      // emails.push(CC);
+      emails.push(CC)
 
       const imageBase64 = await encodeFileToBase64(filePath)
       await sendEmail(emailData.user, emailData.token, imageBase64, emails)
