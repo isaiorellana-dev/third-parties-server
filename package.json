@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/index.ts",
     "build": "rimraf dist && tsc && npm run copy-assets",
-    "copy-assets": "copyfiles -u 1 src/assets/**/* dist/assets",
+    "copy-assets": "copyfiles -u 1 src/assets/**/* dist/",
     "ts.check": "tsc --project tsconfig.json",
     "add-build": "git add dist"
   },
