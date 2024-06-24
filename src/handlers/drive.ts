@@ -3,6 +3,7 @@ import { FileListResponse } from "../types/drive"
 require("dotenv").config()
 import path from "path"
 import fs from "fs"
+const os = require("os")
 
 const stringKey = process.env.DRIVE_KEY!
 const DRIVE_ID = process.env.DRIVE_ID
@@ -85,7 +86,8 @@ const createFolder = async (parentId: string, name: string) => {
 const downloadPNG = async (id: string) => {
   return new Promise<string>((resolve, reject) => {
     try {
-      const filePath = path.join("src", "assets/img/media.png")
+      const tmpDir = os.tmpdir()
+      const filePath = path.join(tmpDir, "media.png")
       const dest = fs.createWriteStream(filePath)
 
       driveService.files.get(

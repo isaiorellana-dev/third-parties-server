@@ -16,6 +16,7 @@ const googleapis_1 = require("googleapis");
 require("dotenv").config();
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
+const os = require("os");
 const stringKey = process.env.DRIVE_KEY;
 const DRIVE_ID = process.env.DRIVE_ID;
 const key = JSON.parse(stringKey);
@@ -91,7 +92,8 @@ const createFolder = (parentId, name) => __awaiter(void 0, void 0, void 0, funct
 const downloadPNG = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve, reject) => {
         try {
-            const filePath = path_1.default.join("src", "assets/img/media.png");
+            const tmpDir = os.tmpdir();
+            const filePath = path_1.default.join(tmpDir, "media.png");
             const dest = fs_1.default.createWriteStream(filePath);
             driveService.files.get({
                 fileId: id,

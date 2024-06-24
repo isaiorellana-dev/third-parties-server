@@ -19,6 +19,7 @@ const { sendEmail } = require("../handlers/gmail");
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
+const os = require("os");
 const tools_1 = require("../utils/tools");
 dotenv_1.default.config();
 const router = express_1.default.Router();
@@ -140,7 +141,7 @@ router.get("/email", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (getImage.files[0] && getImage.files.length > 0) {
             const filePath = yield downloadPNG(getImage.files[0].id);
             const emails = (0, tools_1.cleanEmails)(emailData.email);
-            emails.push(CC);
+            // emails.push(CC);
             const imageBase64 = yield (0, tools_1.encodeFileToBase64)(filePath);
             yield sendEmail(emailData.user, emailData.token, imageBase64, emails);
             yield setNotified(pageId);
@@ -155,7 +156,9 @@ router.get("/email", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.sendStatus(500);
     }
     finally {
-        const filePath = path_1.default.join("src", "assets/img/media.png");
+        // const filePath = path.join("src", "assets/img/media.png")
+        const tmpDir = os.tmpdir();
+        const filePath = path_1.default.join(tmpDir, "media.png");
         fs_1.default.access(filePath, fs_1.default.constants.F_OK, (err) => {
             if (err) {
                 console.error("Img does not exist");

@@ -17,6 +17,7 @@ import dotenv from "dotenv"
 import { Path } from "../types/drive"
 import path from "path"
 import fs from "fs"
+const os = require("os")
 import { cleanEmails, encodeFileToBase64 } from "../utils/tools"
 import { MakeCarpetQuery, GetFileQuery } from "../types/notion"
 
@@ -165,7 +166,7 @@ router.get("/email", async (req, res) => {
       const filePath = await downloadPNG(getImage.files[0].id)
 
       const emails = cleanEmails(emailData.email)
-      emails.push(CC)
+      // emails.push(CC);
 
       const imageBase64 = await encodeFileToBase64(filePath)
       await sendEmail(emailData.user, emailData.token, imageBase64, emails)
@@ -180,7 +181,9 @@ router.get("/email", async (req, res) => {
     console.log(error)
     res.sendStatus(500)
   } finally {
-    const filePath = path.join("src", "assets/img/media.png")
+    // const filePath = path.join("src", "assets/img/media.png")
+    const tmpDir = os.tmpdir()
+    const filePath = path.join(tmpDir, "media.png")
 
     fs.access(filePath, fs.constants.F_OK, (err) => {
       if (err) {
