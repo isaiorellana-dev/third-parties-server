@@ -32,7 +32,7 @@ const sendEmail = (user, password, file, emails) => __awaiter(void 0, void 0, vo
             `From: "Sweepstouch LLC" <${FROM}>`,
             `To: ${emails[0]}`,
             `Cc: ${CCs.join(", ")}`,
-            "Subject: Campan̄a Exitosa",
+            "Subject: Successful messaging campaign",
             "MIME-Version: 1.0",
             'Content-Type: multipart/related; boundary="boundary"',
             "",
