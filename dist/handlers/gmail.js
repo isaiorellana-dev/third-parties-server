@@ -27,7 +27,6 @@ const sendEmail = (user, password, file, emails) => __awaiter(void 0, void 0, vo
     try {
         const gmail = googleapis_1.google.gmail({ version: "v1", auth: auth });
         const CCs = emails.slice(1);
-        console.log(CCs);
         const messageParts = [
             `From: "Sweepstouch LLC" <${FROM}>`,
             `To: ${emails[0]}`,
@@ -39,7 +38,32 @@ const sendEmail = (user, password, file, emails) => __awaiter(void 0, void 0, vo
             "--boundary",
             'Content-Type: text/html; charset="UTF-8"',
             "",
-            `<h1 style="color:#fc0680; font-family: Verdana, Geneva, Tahoma, sans-serif">ADV DE LA SEMANA</h1><div style="width: 100%;"><div style="width:fit-content; margin: 0 auto"><img src="cid:flyer" style="max-width: 500px" /></div></div><div style="margin-top:30px; font-family: Arial, Helvetica, sans-serif"><p>Para mas detalles de tu campaña, ingresa y dale click <a href="https://portal.sweepstouch.com/" style="color:#fc0680;">aquí.</a></p><p style="color:#fc0680; font-weight: bold">Estas son tus credenciales:</p><ul><li>User: ${user}</li><li>Password: ${password}</li></ul></div><img src="cid:imagen1" style="width:100%"/>`,
+            `<div style="width: 100%">
+        <div style="width: fit-content; max-width: 600px; margin: 0 auto">
+          <p>Le informamos que su campaña de mensajes ha sido enviada con éxito.</p>
+          <h1
+            style="color: #fc0680; font-family: Verdana, Geneva, Tahoma, sans-serif"
+          >
+            ADV DE LA SEMANA
+          </h1>
+          <div style="width: 100%">
+            <div style="width: fit-content; margin: 0 auto">
+              <img src="cid:flyer" style="max-width: 500px" />
+            </div>
+          </div>
+          <div style="margin-top: 30px; font-family: Arial, Helvetica, sans-serif">
+            <p>
+              Para más detalles de la campaña, haga click
+              <a href="https://portal.sweepstouch.com/" style="color: #fc0680"
+                >aquí.
+              </a>
+              Su user es ${user} y su password ${password}
+            </p>
+          </div>
+          <img src="cid:imagen1" style="width: 100%" />
+        </div>
+      </div>
+      `,
             "",
             "--boundary",
             "Content-Type: image/png",

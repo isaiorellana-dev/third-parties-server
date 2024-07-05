@@ -39,6 +39,21 @@ const getFile = (id) => __awaiter(void 0, void 0, void 0, function* () {
         throw error;
     }
 });
+const getFilesByName = (name) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const res = yield driveService.files.list({
+            corpora: "drive",
+            driveId: DRIVE_ID,
+            includeItemsFromAllDrives: true,
+            supportsAllDrives: true,
+            q: `trashed = false and name contains '${name}' and mimeType contains 'image/png'`,
+        });
+        return res.data;
+    }
+    catch (error) {
+        throw error;
+    }
+});
 const getFilesList = (parentId, name) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield driveService.files.list({
@@ -150,6 +165,7 @@ module.exports = {
     getFile,
     getFilesList,
     getPNG,
+    getFilesByName,
     downloadPNG,
     getDrive,
     createFolder,

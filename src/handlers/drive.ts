@@ -30,6 +30,22 @@ const getFile = async (id: string) => {
   }
 }
 
+const getFilesByName = async (name: string) => {
+  try {
+    const res = await driveService.files.list({
+      corpora: "drive",
+      driveId: DRIVE_ID,
+      includeItemsFromAllDrives: true,
+      supportsAllDrives: true,
+      q: `trashed = false and name contains '${name}' and mimeType contains 'image/png'`,
+    })
+
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}
+
 const getFilesList = async (
   parentId: string,
   name: string
@@ -150,6 +166,7 @@ module.exports = {
   getFile,
   getFilesList,
   getPNG,
+  getFilesByName,
   downloadPNG,
   getDrive,
   createFolder,
